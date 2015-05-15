@@ -7,7 +7,7 @@ int chaine = 0;
 int led = 13;
 char Message[VW_MAX_MESSAGE_LEN]; 
 
-// Partie mÃ©tÃ©o
+// Partie météo
 #include <dht.h>
 dht DHT;
 #define DHT11_PIN 5
@@ -18,7 +18,7 @@ void setup() {
 }
 
 void loop() {
-  int chk = DHT.read11(DHT11_PIN); // propriÃ©tÃ© ET mÃ©thode !
+  int chk = DHT.read11(DHT11_PIN); // propriété ET méthode !
   absdegres = DHT.temperature;
   if(absdegres < 0) {
     absdegres = abs(DHT.temperature);
@@ -34,8 +34,8 @@ void loop() {
   // Valeurs
   chaine = negatif*10000 + absdegres*100 + humidite;
   // Conversion du int en tableau de chars 
-  itoa(chaine,Message,10);  // 10 car dÃ©cimal
-  // SÃ©quence de transmission
+  itoa(chaine,Message,10);  // 10 car décimal
+  // Séquence de transmission
   digitalWrite(led, HIGH);
   vw_send((uint8_t *)Message, strlen(Message));
   vw_wait_tx(); // On attend la fin de la transmission
