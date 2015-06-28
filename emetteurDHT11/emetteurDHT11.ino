@@ -1,5 +1,6 @@
 /*
   ARDUINO TEMPERATURE AND HUMIDITY TRANSMITTER
+
   The idea is to make a standalone sensor sending its data through short radio signal.
   To retrieve instant temperature and humidity: I am using a DHT11 component.
   To send short strings of data: I am using a RF 433 MHz module.
@@ -17,17 +18,19 @@
 
 // What we need for radio TX/RX
 #include <VirtualWire.h>
-int absDeg = 0; // 2 digits for temperature (no decimal)
-int isNeg = 2;  // 1 digit defining sign of temperature: 2 for positive, 1 for negative 
-int moist = 0;  // 2 digits for humidity: from 00% to 99%
-int TXstr = 0;  // 5 digits
-int led = 13;   // LED for visual feedback
 char Message[VW_MAX_MESSAGE_LEN]; 
 
 // What we need for weather
 #include <dht.h>
 dht DHT;
 #define DHT11_PIN 5
+
+// Vars
+int absDeg = 0; // Tmperature in Celsius (2 digits, no decimal)
+int isNeg = 2;  // 1 digit defining sign of temperature: 2 for positive, 1 for negative 
+int moist = 0;  // 2 digits for humidity: from 00% to 99%
+int TXstr = 0;  // 5 digits
+int led = 13;   // LED for visual feedback
 
 void setup() {
   pinMode(led, OUTPUT);     

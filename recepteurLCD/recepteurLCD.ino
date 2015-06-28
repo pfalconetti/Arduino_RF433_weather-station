@@ -1,81 +1,52 @@
 /*
-  LiquidCrystal Library - Hello World
- 
- Demonstrates the use a 16x2 LCD display.  The LiquidCrystal
- library works with all LCD displays that are compatible with the 
- Hitachi HD44780 driver. There are many of them out there, and you
- can usually tell them by the 16-pin interface.
- 
- This sketch prints "Hello World!" to the LCD
- and shows the time.
- 
-  The circuit:
- * LCD RS pin to digital pin 12
- * LCD Enable pin to digital pin 10 (pin 11 = RX data)
- * LCD D4 pin to digital pin 5
- * LCD D5 pin to digital pin 4
- * LCD D6 pin to digital pin 3
- * LCD D7 pin to digital pin 2
- * LCD R/W pin to ground
- * 10K resistor:
- * ends to +5V and ground
- * wiper to LCD VO pin (pin 3)
- 
- Library originally added 18 Apr 2008
- by David A. Mellis
- library modified 5 Jul 2009
- by Limor Fried (http://www.ladyada.net)
- example added 9 Jul 2009
- by Tom Igoe
- modified 22 Nov 2010
- by Tom Igoe
- 
- This example code is in the public domain.
+  ARDUINO RECEIVER WITH LCD DISPLAY
 
- http://www.arduino.cc/en/Tutorial/LiquidCrystal
- */
+  The idea is to make a standalone circuit, receiving data through radio signal, parsing data, and displaying the result.
+  To receive short strings of data: I am using a RF 433 MHz RX module.
+  To display data: I am using a standard 16x2 LCD display.
+  Both are Arduino compatibles and have to be used with their libraries.
+  The data received will be a 5 digits integer.
+  1st digit will define whether it's a positive or negative temperature.
+  2nd and 3rd digits will define the absolute temperature value in Celsius.
+  4th and 5th digits will define the humidity.
+  There are no decimals.
+  The LCD display is big enough to display these data plus - eventually - two more values for indoor temperature and room humidity.
+  The LED is optionnal: I use it to visually check receiving of data.
 
-/************************************************************** 
- * Affiche sur le moniteur serie le nombre entier reçu.
- * Sketch du récepteur (branché à la pin 11, par défaut).
- * http://electroniqueamateur.blogspot.com/2014/01/modules-rf-433-mhz-virtualwire-et.html
- * PPF: Voir script de l'émetteur pour les corrections de libs.
- ***************************************************************/
+  How to connect:
+  * LCD RS pin to digital pin 12
+  * LCD Enable pin to digital pin 10 (pin 11 = RX data)
+  * LCD D4 pin to digital pin 5
+  * LCD D5 pin to digital pin 4
+  * LCD D6 pin to digital pin 3
+  * LCD D7 pin to digital pin 2
+  * LCD R/W pin to ground
+  * 10K resistor:
+  * ends to +5V and ground
+  * wiper to LCD VO pin (pin 3)
+  * RX pin to digital pin 11
+*/
 
-// FIXME PPF: gérer l'effacement de la rémanance de l'affichage
-// Il me semble avoir vu un script sur le Net pour effacer l'affichage en conservant sa valeur
-// FIXME PPF: ajouter le circuit de pression atmosphérique
-// FIXME PPF: gérer les infos envoyées par le TX (temp + humidité)
-// FIXME PPF: soigner les infos affichées
-
-int led = 13;
-int absdegres = 12;
-int negatif = 2;
-int humidite = 0;
-
-// LCD 16x02
-// include the library code:
-#include <LiquidCrystal.h>
-// initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(12, 10, 5, 4, 3, 2);
-
-// RX 433MHz
+// What we need for radio TX/RX
 #include <VirtualWire.h>
 int Nombre;
 char Message[VW_MAX_MESSAGE_LEN];
 
+// What we need for Hitachi HD44780 16x2 LCD display
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(12, 10, 5, 4, 3, 2); // Initialize the library with the numbers of the interface pins
+
+//  Vars
+int absDeg = 12; // Temperature in Celsius (2 digits, no decimal)
+int isNeg = 2;   // 1 digit defining sign of temperature: 2 for positive, 1 for negative 
+int moist = 0;   // 2 digits for humidity: from 00% to 99%
+int led = 13;    // LED for visual feedback
+
 void setup() {
-  // initialize the digital pin as an output.
   pinMode(led, OUTPUT);     
-  
-  // RX 433MHz
-  vw_setup(2000);   // Bits par seconde   
+  vw_setup(2000); // Transmission rate: bits per second
   vw_rx_start();       
-
-  // LCD 16x02
-  // set up the LCD's number of columns and rows: 
-  lcd.begin(16, 2);
-
+  lcd.begin(16, 2); // LCD 16x02: set up the LCD's number of columns and rows: 
   digitalWrite(led, LOW);
 }
 
@@ -91,18 +62,19 @@ void loop() {
       Message[i] = char(buf[i]);
     }
     Message[buflen] = '\0';
-    // Conversion du tableau de chars en int:
+    // Data conversion: chars table into integer
     Nombre = atoi(Message);
-    // Ligne dessus
+    // 1st LCD line of constant display
     lcd.setCursor(0, 0);
     lcd.print("int ..C");
     lcd.setCursor(8, 0);
     lcd.print(".... Hpa");
-    // Ligne dessous
+    // 2nd LCD line of constant display
     lcd.setCursor(0, 1);
     lcd.print("ext ...C");
     lcd.setCursor(9, 1);
     lcd.print("..% hum");
+    // 2nd LCD line of data display
     lcd.setCursor(4, 1);
     if(char(buf[0])==1) {
       lcd.print("-");

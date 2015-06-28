@@ -10,7 +10,7 @@ Simple external temp and humidity sensors, with Arduino Nano communicating to Ar
 
 The idea is to make a standalone sensor sending its data through short radio signal.
 To retrieve instant temperature and humidity: I am using a DHT11 component.
-To send short strings of data: I am using a RF 433 MHz module.
+To send short strings of data: I am using a RF 433 MHz TX module.
 Both are Arduino compatibles and have to be used with their libraries.
 Where I live, external temperature reach +40°C and go down to -10°C.
 Humidity is a percentage, so technically values go from 0 to 100%.
@@ -24,7 +24,36 @@ The LED is optionnal: I use it to visually check transmission.
 
 ### 2nd part: receiving and handling data
 
-...
+The idea is to make a standalone circuit, receiving data through radio signal, parsing data, and displaying the result.
+To receive short strings of data: I am using a RF 433 MHz RX module.
+To display data: I am using a standard 16x2 LCD display.
+Both are Arduino compatibles and have to be used with their libraries.
+The data received will be a 5 digits integer.
+1st digit will define whether it's a positive or negative temperature.
+2nd and 3rd digits will define the absolute temperature value in Celsius.
+4th and 5th digits will define the humidity.
+There are no decimals.
+The LCD display is big enough to display these data plus - eventually - two more values for indoor temperature and room humidity.
+The LED is optionnal: I use it to visually check receiving of data.
+
+How to connect:
+* LCD RS pin to digital pin 12
+* LCD Enable pin to digital pin 10 (pin 11 = RX data)
+* LCD D4 pin to digital pin 5
+* LCD D5 pin to digital pin 4
+* LCD D6 pin to digital pin 3
+* LCD D7 pin to digital pin 2
+* LCD R/W pin to ground
+* 10K resistor:
+* ends to +5V and ground
+* wiper to LCD VO pin (pin 3)
+* RX pin to digital pin 11
+
+## What you get here
+
+* INO files for transmitter (emetteurDHT11.ino) and receiver (recepteurLCD)
+* Fritzing file for transmitter
+* Demo picture
 
 ## What you need for this project
 
@@ -42,7 +71,7 @@ The LED is optionnal: I use it to visually check transmission.
 * 2x power supplies (for the Arduino boards)
 * a few wires, including a 20-30cm wire to solder as an antenna
 * 1x plastic box - optionnal - for the outdoor module
-* 1x LED - optionnal - for visual feedback
+* 2x LEDs - optionnal - for visual feedback
 
 ### Tools
 
@@ -78,8 +107,21 @@ has been replaced with:
 #include "Arduino.h"
 ```
 
+## Useful links
+
+* RF 433MHz demo: http://electroniqueamateur.blogspot.fr/2014/01/modules-rf-433-mhz-virtualwire-et.html
+* Arduino Liquid Crystal tutorial: http://www.arduino.cc/en/Tutorial/LiquidCrysta
+* LCD library: http://www.ladyada.net
+
 ## Todo list
 
-- More comments are available inline.
-
-Work and english translations are still in progress...
+* Complete project
+* Complete connections description
+* Add sensor to receiver to handle indoor temperature and humidity
+* Eventually handle atmospheric pressure and logs for forecast
+* Make a better display
+* Handle clear screen and persistant display. I might have seen some script to clear the LCD display while keeping the values in memory...
+* Make a better use of data in the transmitter part.
+* Complete comments
+* Add dependencies to Git repository
+* Add more pictures
