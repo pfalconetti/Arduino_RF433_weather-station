@@ -26,6 +26,22 @@ The LED is optionnal: I use it to visually check transmission.
 
 ...
 
+## What you need for this project
+
+* 2x Arduino boards. I use:
+  * Arduino Nano for the transmitter
+  * Arduino Leonardo for the receiver
+* 1x pair of RF 433Mhz modules, Arduino and VirtualWire compatibles
+  * 1x transmitter
+  * 1x receiver
+* 1x DHT11 module, Arduino compatible
+* 1x 16x2 LCD screen, Arduino compatible, with Hitachi HD44780 driver
+* 1x 10K Ohm potentiometer
+* 2x power supplies (for the Arduino boards)
+* a few wires
+* 1x plastic box - optionnal - for the outdoor module
+* 1x LED - optionnal - for visual feedback
+
 ## Troubleshooting
 
 This project is using Arduino 1.6.3 IDE. Due to old/obsolete/no-more-supported components I used, some Arduino 1.6.3 libraries may not be compatible.
