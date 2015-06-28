@@ -28,6 +28,8 @@ The LED is optionnal: I use it to visually check transmission.
 
 ## What you need for this project
 
+### Components
+
 * 2x Arduino boards. I use:
   * Arduino Nano for the transmitter
   * Arduino Leonardo for the receiver
@@ -38,9 +40,13 @@ The LED is optionnal: I use it to visually check transmission.
 * 1x 16x2 LCD screen, Arduino compatible, with Hitachi HD44780 driver
 * 1x 10K Ohm potentiometer
 * 2x power supplies (for the Arduino boards)
-* a few wires
+* a few wires, including a 20-30cm wire to solder as an antenna
 * 1x plastic box - optionnal - for the outdoor module
 * 1x LED - optionnal - for visual feedback
+
+### Tools
+
+Nothing special. It depends if you want to solder or not. But I recommend you first prototype all this with your own requirements.
 
 ## Troubleshooting
 
