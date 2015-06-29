@@ -51,7 +51,7 @@ How to connect:
 
 ## What you get here
 
-* INO files for transmitter (emetteurDHT11.ino) and receiver (recepteurLCD)
+* INO files for transmitter (emetteurDHT11.ino) and receiver (recepteurLCD.ino) (each file must be uploaded to the respective Arduino board through Arduino IDE)
 * Fritzing file for transmitter
 * Demo picture
 
@@ -72,6 +72,7 @@ How to connect:
 * a few wires, including a 20-30cm wire to solder as an antenna
 * 1x plastic box - optionnal - for the outdoor module
 * 2x LEDs - optionnal - for visual feedback
+* prototyping boards - optionnals
 
 ### Tools
 
