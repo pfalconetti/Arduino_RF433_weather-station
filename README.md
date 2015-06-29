@@ -6,7 +6,7 @@ Simple external temp and humidity sensors, with Arduino Nano communicating to Ar
 
 ## How it works
 
-### 1st part: transmitting data
+### 1st part: collecting and transmitting data
 
 The idea is to make a standalone sensor sending its data through short radio signal.
 To retrieve instant temperature and humidity: I am using a DHT11 component.
